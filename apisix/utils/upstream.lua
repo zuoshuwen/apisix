@@ -67,6 +67,7 @@ local function parse_domain_for_nodes(nodes)
         local host = node.host
         if not ipmatcher.parse_ipv4(host) and
                 not ipmatcher.parse_ipv6(host) then
+            -- 这里给转成ip了
             local ip, err = core.resolver.parse_domain(host)
             if ip then
                 local new_node = core.table.clone(node)

@@ -252,7 +252,7 @@ local function pick_server(route, ctx)
     ctx.balancer_server = server
 
     local domain = server_picker.addr_to_domain[server]
-    -- 这里给server转成host了？
+
     local res, err = lrucache_addr(server, nil, parse_addr, server)
     if err then
         core.log.error("failed to parse server addr: ", server, " err: ", err)
@@ -318,7 +318,6 @@ do
 
                 pool_opt.pool = pool
             end
-            -- 设置上游节点
             local ok, err = balancer.set_current_peer(server.host, server.port,
                                                       pool_opt)
             if not ok then
@@ -327,7 +326,6 @@ do
 
             return balancer.enable_keepalive(idle_timeout, requests)
         end
-        -- 设置上游节点
         return balancer.set_current_peer(server.host, server.port)
     end
 end
